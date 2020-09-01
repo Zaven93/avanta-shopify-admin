@@ -1,6 +1,15 @@
-const dotenv = require('dotenv').config()
+/*
+Copyright 2017 - 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at
+    http://aws.amazon.com/apache2.0/
+or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and limitations under the License.
+*/
+
 const express = require('express')
-const crypto = require('crypto')
+const bodyParser = require('body-parser')
+const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
+// const crypto = require('crypto')
 const CryptoJS = require('crypto-js')
 const cookie = require('cookie')
 const nonce = require('nonce')()
@@ -9,21 +18,27 @@ const axios = require('axios')
 const fetch = require('node-fetch')
 const productsRoute = require('./routes/productsRoute')
 
-const shopifyApiPublicKey = process.env.SHOPIFY_API_PUBLIC_KEY
-const shopifyApiSecretKey = process.env.SHOPIFY_API_SECRET_KEY
+// declare a new express app
+var app = express()
+app.use(bodyParser.json())
+app.use(awsServerlessExpressMiddleware.eventContext())
+
+// Enable CORS for all methods
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+    next()
+})
+
+app.use('/api/products', productsRoute)
+
+const shopifyApiPublicKey = '6a2c26362810a70d73c835020ffe23a9'
+const shopifyApiSecretKey = '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'
 const scopes =
     'write_products, read_products, read_customers, write_customers, read_draft_orders, write_draft_orders, read_orders, write_orders'
-const appUrl = 'https://a4f3308a5a4e.ngrok.io'
+const appUrl = 'https://kv470qnx24.execute-api.us-east-1.amazonaws.com/dev'
 
-const app = express()
-const PORT = 5000
-
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
-
-app.use('/products', productsRoute)
-
-app.get('/', (req, res) => {
+app.get('/api/', (req, res) => {
     res.send('Avanta Transactions')
 })
 
@@ -108,11 +123,7 @@ app.get('/shopify/callback', async (req, res) => {
     }
 })
 
-app.get('/greeting', (req, res) => {
-    res.send('Hello Zaven')
-})
-
-app.get('/shop-info', (req, res) => {
+app.get('/api/shop-info', (req, res) => {
     fetch('https://transactions-avanta.myshopify.com/admin/api/graphql.json', {
         method: 'POST',
         headers: {
@@ -139,7 +150,7 @@ app.get('/shop-info', (req, res) => {
         })
 })
 
-app.get('/customers', (req, res) => {
+app.get('/api/customers', (req, res) => {
     fetch('https://transactions-avanta.myshopify.com/admin/api/graphql.json', {
         method: 'POST',
         headers: {
@@ -169,7 +180,7 @@ app.get('/customers', (req, res) => {
         })
 })
 
-app.get('/customer/:id', (req, res) => {
+app.get('/api//customer/:id', (req, res) => {
     fetch('https://transactions-avanta.myshopify.com/admin/api/graphql.json', {
         method: 'POST',
         headers: {
@@ -202,7 +213,7 @@ app.get('/customer/:id', (req, res) => {
         })
 })
 
-app.post('/order', async (req, res) => {
+app.post('/api/order', async (req, res) => {
     try {
         const orderRes = await fetch(
             'https://transactions-avanta.myshopify.com/admin/api/graphql.json',
@@ -284,4 +295,4 @@ app.post('/order', async (req, res) => {
     }
 })
 
-app.listen(PORT, () => console.log(`listening on port ${PORT}`))
+module.exports = app

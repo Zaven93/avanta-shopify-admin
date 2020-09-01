@@ -1,0 +1,23 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-avantaclient-dev-15028-authRole",
+            "UnauthRoleArn": "arn:aws:iam::532915560365:role/amplify-avantaclient-dev-15028-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::532915560365:role/amplify-avantaclient-dev-15028-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-avantaclient-dev-15028-deployment",
+            "UnauthRoleName": "amplify-avantaclient-dev-15028-unauthRole",
+            "StackName": "amplify-avantaclient-dev-15028",
+            "StackId": "arn:aws:cloudformation:us-east-1:532915560365:stack/amplify-avantaclient-dev-15028/3145ba20-ec30-11ea-b7dd-0ef7f3f34731",
+            "AmplifyAppId": "d7a3ao7d16ux1"
+        },
+        "categories": {
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d7a3ao7d16ux1",
+                    "type": "manual"
+                }
+            }
+        }
+    }
+}

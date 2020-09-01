@@ -1,0 +1,49 @@
+{
+    "paths": [
+        {
+            "name": "/api",
+            "lambdaFunction": "avantaTransactions",
+            "privacy": {
+                "open": true
+            }
+        },
+        {
+            "name": "/shopify",
+            "lambdaFunction": "avantaTransactions",
+            "privacy": {
+                "open": true
+            }
+        },
+        {
+            "name": "/shop-info",
+            "lambdaFunction": "avantaTransactions",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "avantaTransactions",
+    "apiName": "avantaTransactions",
+    "functionArns": [
+        {
+            "lambdaFunction": "avantaTransactions"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-avantatransactions-dev-01550-authRole",
+        "unAuthRoleName": "amplify-avantatransactions-dev-01550-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "avantaTransactions",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ],
+    "uuid": "aa064136"
+}
